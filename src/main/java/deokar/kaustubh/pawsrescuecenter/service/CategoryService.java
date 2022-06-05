@@ -1,6 +1,8 @@
 package deokar.kaustubh.pawsrescuecenter.service;
 
+import deokar.kaustubh.pawsrescuecenter.dto.product.ProductDto;
 import deokar.kaustubh.pawsrescuecenter.model.Category;
+import deokar.kaustubh.pawsrescuecenter.model.Product;
 import deokar.kaustubh.pawsrescuecenter.repo.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
