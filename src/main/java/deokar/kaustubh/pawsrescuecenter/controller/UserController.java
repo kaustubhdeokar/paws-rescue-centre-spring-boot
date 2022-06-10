@@ -1,7 +1,10 @@
 package deokar.kaustubh.pawsrescuecenter.controller;
 
+import deokar.kaustubh.pawsrescuecenter.dto.users.SignInDto;
+import deokar.kaustubh.pawsrescuecenter.dto.users.SignInResponseDto;
 import deokar.kaustubh.pawsrescuecenter.dto.users.SignUpResponseDto;
 import deokar.kaustubh.pawsrescuecenter.dto.users.SignupDto;
+import deokar.kaustubh.pawsrescuecenter.exceptions.AuthenticationFailException;
 import deokar.kaustubh.pawsrescuecenter.exceptions.CustomException;
 import deokar.kaustubh.pawsrescuecenter.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,5 +26,11 @@ public class UserController {
     public ResponseEntity<SignUpResponseDto> Signup(@RequestBody SignupDto signupDto) throws CustomException{
         return new ResponseEntity<>(userService.signUp(signupDto), HttpStatus.OK);
     }
+
+    @PostMapping("/signin")
+    public ResponseEntity<SignInResponseDto> signIn(@RequestBody SignInDto signInDto) throws CustomException, AuthenticationFailException {
+        return new ResponseEntity<>(userService.signIn(signInDto), HttpStatus.OK);
+    }
+
 
 }
