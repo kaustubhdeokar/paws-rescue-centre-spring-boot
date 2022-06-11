@@ -4,8 +4,8 @@ import deokar.kaustubh.pawsrescuecenter.common.ApiResponse;
 import deokar.kaustubh.pawsrescuecenter.dto.cart.AddToCartDto;
 import deokar.kaustubh.pawsrescuecenter.dto.cart.CartDto;
 import deokar.kaustubh.pawsrescuecenter.exceptions.AuthenticationFailException;
+import deokar.kaustubh.pawsrescuecenter.exceptions.CartItemNotExistException;
 import deokar.kaustubh.pawsrescuecenter.exceptions.ProductNotExistException;
-import deokar.kaustubh.pawsrescuecenter.model.Cart;
 import deokar.kaustubh.pawsrescuecenter.model.Product;
 import deokar.kaustubh.pawsrescuecenter.model.User;
 import deokar.kaustubh.pawsrescuecenter.service.AuthenticationService;
@@ -17,8 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/cart")
@@ -52,6 +50,18 @@ public class CartController {
 
         CartDto cartDto = cartService.getCartItemsForUser(user);
         return new ResponseEntity<>(cartDto, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{cartItemId}")
+    public ResponseEntity<ApiResponse> deleteCardItem(@PathVariable("cartItemId") int cartItemId,
+                                                      @RequestParam("token") String token)
+            throws AuthenticationFailException, CartItemNotExistException {
+
+        authenticationService.authenticate(token);
+        User user = authenticationService.getUser(token);
+        cartService.deleteCartItem(cartItemId,user);
+        return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Item has been removed"), HttpStatus.OK);
+
     }
 
 }
