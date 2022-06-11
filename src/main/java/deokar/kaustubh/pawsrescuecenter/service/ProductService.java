@@ -1,6 +1,7 @@
 package deokar.kaustubh.pawsrescuecenter.service;
 
 import deokar.kaustubh.pawsrescuecenter.dto.product.ProductDto;
+import deokar.kaustubh.pawsrescuecenter.exceptions.ProductNotExistException;
 import deokar.kaustubh.pawsrescuecenter.model.Category;
 import deokar.kaustubh.pawsrescuecenter.model.Product;
 import deokar.kaustubh.pawsrescuecenter.repo.ProductRepository;
@@ -39,5 +40,12 @@ public class ProductService {
 
     public Optional<Product> readProduct(Integer productId) {
         return productRepository.findById(productId);
+    }
+
+    public Product getProductById(Integer productId) throws ProductNotExistException {
+        Optional<Product> optionalProduct = productRepository.findById(productId);
+        if (!optionalProduct.isPresent())
+            throw new ProductNotExistException("Product id is invalid " + productId);
+        return optionalProduct.get();
     }
 }
